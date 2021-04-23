@@ -45,7 +45,7 @@ this will generate the H5 files containing the EDF/hypnogram data, and a CSV fil
 
 ### Run script
 ```
-python predict.py -c config.yaml -r trained_models/model_best.pth
+python predict.py -c config.yaml -r trained_models/best_weights.pth
 ```
 
 ## Citation
