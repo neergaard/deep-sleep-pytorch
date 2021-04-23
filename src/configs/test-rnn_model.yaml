@@ -1,0 +1,48 @@
+exp:
+  name: test-rnn_model
+data_loader:
+  name: dataset.MultiCohortDataset
+  batch_size:
+    train: 32
+    eval: 32
+    test: 32
+  data:
+    train:
+      - [isruc, train]
+      - [mros, train]
+      - [shhs, train]
+      - [wsc, train]
+      - [isruc, eval]
+      - [mros, eval]
+      - [shhs, eval]
+      - [wsc, eval]
+      - [isruc, test]
+      - [mros, test]
+      - [shhs, test]
+      - [wsc, test]
+    eval:
+      - [isruc, eval]
+      - [mros, eval]
+      - [shhs, eval]
+      - [wsc, eval]
+    test:
+      - [isruc, test]
+      - [mros, test]
+      - [shhs, test]
+      - [wsc, test]
+  data_dir: ./data/processed
+  modalities: [eeg, eog, emg]
+  num_classes: 5
+  segment_length: 300 # Length in seconds
+network:
+  import: src.model.rnn_model.RnnModel
+  filter_base: 4
+  kernel_size: 3
+  max_pooling: 2
+  num_blocks: 7
+  rnn_bidirectional: true
+  rnn_num_layers: 1
+  rnn_num_units:
+loss:
+  name: nll_loss
+metrics:

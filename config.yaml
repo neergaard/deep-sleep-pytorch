@@ -1,0 +1,60 @@
+data_loader:
+  batch_size:
+    eval: 256
+    test: 256
+    train: 256
+  data:
+    eval:
+    test:
+    - - cfs
+      - test
+    train:
+  data_dir: ./data/processed
+  import: src.data_loader.dataset.MultiCohortDataset
+  modalities:
+  - eeg
+  - eog
+  - emg
+  num_classes: 5
+  segment_length: 300
+  train_fraction: null
+exp:
+  name: my_config
+loss:
+  import: src.model.losses.temporal_crossentropy_loss
+lr_scheduler:
+  args:
+    base_lr: 0.1
+    max_lr: 0.5
+    mode: triangular
+    step_size_up: 500
+  import: torch.optim.lr_scheduler.CyclicLR
+metrics:
+- overall_accuracy
+- balanced_accuracy
+- kappa
+network:
+  filter_base: 4
+  import: src.model.rnn_model.RnnModel
+  kernel_size: 3
+  max_pooling: 2
+  num_blocks: 7
+  rnn_bidirectional: true
+  rnn_num_layers: 1
+  rnn_num_units: 1024
+optimizer:
+  args:
+    lr: 0.1
+    momentum: 0.9
+    nesterov: true
+  import: torch.optim.SGD
+trainer:
+  epochs: 20
+  log_dir: experiments/my_experiment
+  monitor: min val_loss
+  n_gpu: 1
+  num_workers: 128
+  save_dir: experiments
+  save_freq: 1
+  tensorboardX: false
+  verbosity: 2

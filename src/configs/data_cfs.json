@@ -1,0 +1,57 @@
+{
+    "COHORTS": {
+        "cfs": {
+            "edf": "./data/raw/cfs",
+            "stage": "./data/raw/cfs"
+        }
+    },
+    "COHORT_OVERVIEW_FILE": [],
+    "FILTERS": {
+        "btype": {
+            "eeg": "bandpass",
+            "emg": "high",
+            "eog": "bandpass"
+        },
+        "fc": {
+            "eeg": [
+                0.5,
+                35
+            ],
+            "emg": [
+                10
+            ],
+            "eog": [
+                0.5,
+                35
+            ]
+        },
+        "fs_resampling": 128,
+        "order": {
+            "eeg": 4,
+            "emg": 4,
+            "eog": 4
+        }
+    },
+    "OUTPUT_DIRECTORY": "./data/processed",
+    "PARTITIONS": {
+        "EVAL": 0.0,
+        "TRAIN": 0.0
+    },
+    "SEGMENTATION": {
+        "EPOCH_LENGTH_SEC": 30,
+        "SEGMENT_LENGTH": {
+            "eeg": 30,
+            "emg": 30,
+            "eog": 30
+        },
+        "SEGMENT_OVERLAP": {
+            "eeg": 0,
+            "emg": 0,
+            "eog": 0
+        },
+        "SEQUENCE_DURATION_MIN": 5
+    },
+    "SUBSETS": [
+        "Test"
+    ]
+}

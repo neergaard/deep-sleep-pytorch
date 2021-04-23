@@ -1,0 +1,69 @@
+__include__: abstract.yaml 
+exp:
+  name: exp02-mros
+data_loader:
+  import: src.data_loader.dataset.MultiCohortDataset
+  batch_size:
+    train: 128
+    eval: 64
+    test: 64
+  data:
+    train:
+      # - [isruc, train]
+      - [mros, train]
+      # - [shhs, train]
+      # - [ssc, train]
+      # - [wsc, train]
+    eval:
+      # - [isruc, eval]
+      - [mros, eval]
+      # - [shhs, eval]
+      # - [ssc, eval]
+      # - [wsc, eval]
+    test:
+      # - [isruc, test]
+      - [mros, test]
+      # - [shhs, test]
+      # - [ssc, test]
+      # - [wsc, test]
+  data_dir: ./data/processed_oak
+  modalities: [eeg, eog, emg]
+  data_fraction: 0.05
+  num_classes: 5
+  segment_length: 300 # Length in seconds
+network:
+  import: src.model.rnn_model.RnnModel
+  filter_base: 4
+  kernel_size: 3
+  max_pooling: 2
+  num_blocks: 7
+  rnn_bidirectional: true
+  rnn_num_layers: 1
+  rnn_num_units: 256
+loss:
+  import: src.model.losses.nll_loss
+metrics: ['overall_accuracy', 'balanced_accuracy', 'kappa', 'balanced_precision', 'overall_precision', 'balanced_recall', 'overall_recall', 'balanced_f1', 'overall_f1']
+optimizer:
+  import: Adam
+  args:
+    lr: 0.01
+    weight_decay: 0
+    amsgrad: true
+lr_scheduler:
+  import: ReduceLROnPlateau
+  args:
+    mode: 'min'
+    factor: 0.5
+    patience: 5
+    verbose: true
+trainer:
+  early_stop: 10
+  epochs: 100 # Number of training epochs
+  log_dir: experiments/runs # Directory in which to save log files for tensorboardX visualization
+  monitor: min val_loss #  de and metric for model performance monitoring. set 'off' to disable.
+  n_gpu: 4
+  num_workers: 0
+  save_dir: experiments
+  save_freq: 1 # save checkpoints every save_freq epochs
+  tensorboardX: false # Enable tensorboardX visualization support
+  verbosity: 2 # 0: quiet, 1: per epoch, 2: full

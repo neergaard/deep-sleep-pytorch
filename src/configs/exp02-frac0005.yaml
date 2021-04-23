@@ -1,0 +1,69 @@
+exp:
+  name: exp02-frac0005
+data_loader:
+  import: src.data_loader.dataset.MultiCohortDataset
+  batch_size:
+    train: 256
+    eval: 256
+    test: 256
+  data:
+    train:
+      - [isruc, train]
+      - [mros, train]
+      - [shhs, train]
+      - [ssc, train]
+      - [wsc, train]
+    eval:
+      - [isruc, eval]
+      - [mros, eval]
+      - [shhs, eval]
+      - [ssc, eval]
+      - [wsc, eval]
+    test:
+      - [isruc, test]
+      - [mros, test]
+      - [shhs, test]
+      - [ssc, test]
+      - [wsc, test]
+  data_dir: ./data/processed_oak
+  modalities: [eeg, eog, emg]
+  train_fraction: 0.005
+  num_classes: 5
+  segment_length: 300 # Length in seconds
+network:
+  import: src.model.rnn_model.RnnModel
+  filter_base: 4
+  kernel_size: 3
+  max_pooling: 2
+  num_blocks: 7
+  rnn_bidirectional: true
+  rnn_num_layers: 1
+  rnn_num_units: 1024
+loss:
+  import: src.model.losses.temporal_crossentropy_loss
+metrics: [overall_accuracy, balanced_accuracy, kappa]
+# metrics: ['overall_accuracy', 'balanced_accuracy', 'kappa', 'balanced_precision', 'overall_precision', 'balanced_recall', 'overall_recall', 'balanced_f1', 'overall_f1']
+optimizer:
+  import: torch.optim.SGD
+  args:
+    lr: 0.1
+    momentum: 0.9
+    nesterov: true
+lr_scheduler:
+  import: torch.optim.lr_scheduler.CyclicLR
+  args:
+    base_lr: 0.1
+    max_lr: 0.5
+    step_size_up: 500
+    mode: 'triangular'
+trainer:
+  # early_stop: 11
+  epochs: 100 # Number of training epochs
+  log_dir: experiments/runs # Directory in which to save log files for tensorboardX visualization
+  monitor: min val_loss #  de and metric for model performance monitoring. set 'off' to disable.
+  n_gpu: 4
+  num_workers: 128
+  save_dir: experiments
+  save_freq: 1 # save checkpoints every save_freq epochs
+  tensorboardX: false # Enable tensorboardX visualization support
+  verbosity: 2 # 0: quiet, 1: per epoch, 2: full
