@@ -30,15 +30,17 @@ def main(config, resume):
     print(model)
 
     # Load checkpointed model
-    print(f'Loading checkpoint: {resume} ...')
-    checkpoint = torch.load(resume)
-    state_dict = checkpoint['state_dict']
-    if config.trainer.n_gpu > 1:
-        model = torch.nn.DataParallel(model)
-    else:  # HACK: model was trained on multiple GPUs, this removes the 'module' part of the state_dict keys.
-        state_dict_old = state_dict.copy()
-        state_dict = {k.replace('module.', ''): v for k, v in state_dict_old.items()}
-    model.load_state_dict(state_dict)
+    print(f'Loading best model weights: {resume} ...')
+    # checkpoint = torch.load(resume)
+    # state_dict = checkpoint['state_dict']
+    # state_dict = torch.load()
+    # if config.trainer.n_gpu > 1:
+    #     model = torch.nn.DataParallel(model)
+    # else:  # HACK: model was trained on multiple GPUs, this removes the 'module' part of the state_dict keys.
+        # state_dict_old = state_dict.copy()
+        # state_dict = {k.replace('module.', ''): v for k, v in state_dict_old.items()}
+    # model.load_state_dict(state_dict)
+    model.load_stage_dict(torch.load(resume))
 
     # prepare model for testing
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
