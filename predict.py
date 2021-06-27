@@ -40,7 +40,7 @@ def main(config, resume):
         # state_dict_old = state_dict.copy()
         # state_dict = {k.replace('module.', ''): v for k, v in state_dict_old.items()}
     # model.load_state_dict(state_dict)
-    model.load_stage_dict(torch.load(resume))
+    model.load_state_dict(torch.load(resume))
 
     # prepare model for testing
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

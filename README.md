@@ -14,7 +14,7 @@ In the following, `COHORT_NAME` will designate the name of a custom cohort.
 ### Set up channel label JSON file
 Use the `utils/channel_label_identifier.py` tool by running
 ```
-python utils/channel_label_identifier.py <path to folder containing EDFs and hypnograms> src/configs/signal_labels/<COHORT_NAME>.json C3 C4 A1 A2 EOGL EOGR LChin RChin EMG
+python src/utils/channel_label_identifier.py <path to folder containing EDFs and hypnograms> src/configs/signal_labels/<COHORT_NAME>.json C3 C4 A1 A2 EOGL EOGR LChin RChin EMG
 ```
 This will create a JSON file containing key-value pairs to map the desired electrode labels shown above with the electrode configurations available in the data.
 
@@ -32,7 +32,7 @@ This will create a JSON file containing key-value pairs to map the desired elect
 
 Now run the data generation pipeline using
 ```
-python -m src.data.generate_cohort_files -c <COHORT>.json
+python -m src.data.generate_cohort_files -c data_<COHORT_NAME>.json
 ```
 this will generate the H5 files containing the EDF/hypnogram data, and a CSV file containing an overview over the used files.
 
@@ -42,6 +42,7 @@ this will generate the H5 files containing the EDF/hypnogram data, and a CSV fil
 2. Change the `exp.name` parameter to your `EXPERIMENT_NAME`.
 3. Change the `trainer.log_dir` parameter to `experiments/<EXPERIMENT_NAME>`.
 4. (Optional) If using more than 1 GPU, change the `trainer.n_gpu` parameter to the number of GPUs.
+5. Change data.data_dir if output directory was set to custom location
 
 ### Run script
 ```
