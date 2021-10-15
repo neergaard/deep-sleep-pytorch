@@ -4,7 +4,20 @@ import numpy as np
 
 
 def read_pickle(filepath):
-
+    '''Read contents of the output pickle files.
+    
+    Usage:
+    from pickle_reader import read_pickle
+    
+    y, t = read_pickle(filename)
+    
+    Args:
+        filepath: str -- path to pickle file
+        
+    Returns:
+        y: ndarray -- output predictions every second
+        t: ndarray -- targets every second (hypnogram labels)
+    '''
     # This loads contents of pickle file into a dict
     with open(filepath, 'rb') as pkl:
         out = pickle.load(pkl)
