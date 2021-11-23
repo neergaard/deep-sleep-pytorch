@@ -1,3 +1,10 @@
+""" Conversion of pickle files to comma-separated-values (csv) file. 
+You can supply either a directory containing .pkl files via the '-d/--data_dir' flag, or
+a single .pkl file using the '--file' flag.
+
+Alexander Neergaard Zahid, 2021.
+"""
+
 import argparse
 import time
 from pathlib import Path
@@ -18,7 +25,7 @@ def convert_to_csv(filepath):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("-d", "--data_dir", type=str, help="Path to directory containing .pkl files to convert.")
     parser.add_argument("-f", "--file", type=str, help="Path to specific file to convert.")
     args = parser.parse_args()
